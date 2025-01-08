@@ -1,0 +1,11 @@
+depedencies
+(npm i express pg ejs sequelize)
+-   express
+-   pg
+-   ejs
+-   sequelize
+
+devDepedencies
+(npm i --save-dev sequelize-cli nodemon)
+-   sequelize-cli
+-   nodemon
