@@ -1,0 +1,21 @@
+[
+    {
+      "id": 1,
+      "name": "Technology",
+      "createdAt": "2025-01-01T12:00:00Z",
+      "updatedAt": "2025-01-01T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Health",
+      "createdAt": "2025-01-01T12:30:00Z",
+      "updatedAt": "2025-01-01T12:30:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Lifestyle",
+      "createdAt": "2025-01-01T13:00:00Z",
+      "updatedAt": "2025-01-01T13:00:00Z"
+    }
+  ]
+  
