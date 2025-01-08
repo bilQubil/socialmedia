@@ -9,3 +9,94 @@ devDepedencies
 (npm i --save-dev sequelize-cli nodemon)
 -   sequelize-cli
 -   nodemon
+
+Workflow:
+
+1. Bikin ERD
+2. Migration n Seeding table (a)
+3. Setup Express (b)
+
+4. 
+
+a.Migration n Seeding table
+
+Migrations
+
+1. akses https://sequelize.org/docs/v6/other-topics/migrations/
+2. npx sequelize-cli init
+3. ubah config/config.json, sesuai sama setting di postgres & db nya (
+"development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "sosmed-db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+    }
+)
+4. buat model dan migration: 
+
+npx sequelize-cli model:generate --name User --attributes email:string,password:string,role:string
+
+npx sequelize-cli model:generate --name Post --attributes title:string,context:text,imgURL:string,role:string
+
+npx sequelize-cli model:generate --name Tags --attributes name:string
+
+5. buat tambahan collumn: 
+
+npx sequelize-cli migration:generate --name add-FK-userID
+
+npx sequelize-cli migration:generate --name add-FK-tagID
+
+6. setting relation dalam file migration yang baru
+7. setting relation dalam file models
+5. menjalankan npx sequelize-cli db:migrate
+6. just in case mau undo, menjalankan npx sequelize-cli db:migrate:undo
+7. just in case mau undo, menjalankan npx sequelize-cli db:migrate:undo:all
+
+seeding
+
+1. npx sequelize-cli seed:generate --name demo-tags (khusus yang ada .json nya)
+2. setting seeding dalam folder seeders (JSON.parse(fs.readfilesync()))
+2. npx sequelize-cli db:seed:all
+3. npx sequelize-cli db:seed:undo:all (jika perlu)
+
+Express
+
+1. akses https://expressjs.com/en/starter/hello-world.html
+2. copas example
+3. Tambahkan engine (app.set('view engine', 'ejs'))
+4. tambahkan middleware (app.use(express.urlencoded({ extended: false }));)
+
+Handling Error
+console.error(error)
+            if(error.name === 'SequelizeValidationError'){
+                error = error.errors.map((el) => {
+                    return el.message
+                })
+            } res.send(error)
+
+Display Error at .ejs
+<% if (errors) { %> <% errors.split(';').forEach((el) => { %>
+    <p><%= el %></p>
+    <% }) %> <%}%>
+
+references:
+https://sequelize.org/api/v6/class/src/dialects/abstract/query-interface.js~queryinterface
+
+
+b. Setup Express
+
+const express = require('express')
+const app = express()
+const port = 3000
+const Controller = require('./Controller/controller')
+
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }))
+
+app.get("/", Controller......)
+app.post("/", Controller......)
+
+app.listen(port, () => {
+  console.log(`Example app listening on http://localhost:${port}`)
+})
