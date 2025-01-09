@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "postgres",
+    "username": "putriquarta",
     "password": "postgres",
     "database": "sosmed-db",
     "host": "127.0.0.1",

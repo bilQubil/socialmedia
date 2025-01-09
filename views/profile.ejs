@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        background-color: #121212;
+        color: white;
+      }
+
+      .sidebar {
+        width: 200px;
+        background-color: #1d1d1d;
+        height: 100vh;
+        padding: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+      }
+
+      .sidebar li {
+        margin: 20px 0;
+      }
+
+      .sidebar li a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.2em;
+        font-weight: bold;
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+      }
+
+      .sidebar li a:hover {
+        background-color: #333;
+        border-radius: 5px;
+        padding-left: 10px;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .main {
+        margin-left: 220px; /* Sidebar width + padding */
+        padding: 20px;
+        width: calc(100% - 220px);
+      }
+
+      .profile-header {
+        background-color: #333;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .profile-header img {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        bottom: -50px;
+        left: 20px;
+        border: 3px solid #121212;
+      }
+
+      .profile-details {
+        margin-left: 140px;
+        margin-top: 20px;
+      }
+
+      .profile-details h1 {
+        margin: 0;
+      }
+
+      .profile-details p {
+        margin: 5px 0;
+        color: gray;
+      }
+
+      .profile-nav {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        border-bottom: 1px solid #444;
+        padding-bottom: 10px;
+      }
+
+      .profile-nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .profile-nav a:hover {
+        background-color: #333;
+      }
+
+      .post {
+        background-color: #1d1d1d;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .post img {
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul>
+        <li><a href="/landing">Home</a></li>
+        <li><a href="/explore">Explore</a></li>
+        <li><a href="/notifications">Notifications</a></li>
+        <li><a href="/messages">Messages</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="profile-details">
+          <h1><%= user.username %></h1>
+          <p>@<%= user.username.toLowerCase() %></p>
+          <p>Joined May 2023</p>
+        </div>
+        <img src="https://via.placeholder.com/100" alt="Profile Picture" />
+      </div>
+
+      <!-- Profile Navigation -->
+      <div class="profile-nav">
+        <a href="#">Posts</a>
+        <a href="#">Replies</a>
+        <a href="#">Highlights</a>
+        <a href="#">Media</a>
+        <a href="#">Likes</a>
+      </div>
+
+      <!-- Posts -->
+      <% if (posts && posts.length > 0) { %> <% posts.forEach((post) => { %>
+      <div class="post">
+        <h2><%= post.title %></h2>
+        <p><%= post.content %></p>
+        <% if (post.imgUrl) { %>
+        <img src="<%= post.imgUrl %>" alt="<%= post.title %>" />
+        <% } %>
+      </div>
+      <% }); %> <% } else { %>
+      <p>No posts to display.</p>
+      <% } %>
+    </div>
+  </body>
+</html>
