@@ -14,6 +14,14 @@ passport.use(new LocalStrategy({
             return done(null, false, { message: 'User not found' });
         }
 
+        // if (user.username !== email) {
+        //     return done(null, false, { message: 'Username and email mismatch' });
+        // }
+
+        if (user.role !== 'buyer' && user.role !== 'seller') {
+            return done(null, false, { message: 'Invalid role' });
+        }
+        // console.log(user.password)
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return done(null, false, { message: 'Incorrect password' });

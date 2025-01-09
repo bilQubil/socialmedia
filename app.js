@@ -1,6 +1,7 @@
 const express = require('express')
 const session = require('express-session');
 const passport = require('passport');
+const passportConfig = require('./config/passportConfig')
 const routes = require('./routes/index.js');
 const app = express()
 const port = 3000

@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { User, Post, Tag } = require('../models')
+const passport = require('passport');
 
 class Controller {
     static async getRegister(req, res){
@@ -9,10 +10,12 @@ class Controller {
             console.error(error)
             }
         }
-    static async postRegister(req, res){
+    static async postRegister(req, res, next){
         const { username, email, password, role } = req.body
         try {
-
+            if (role !== 'buyer' && role !== 'seller') {
+                return res.send('Invalid role. Role must be either buyer or seller.');
+            }
             const existingUser = await User.findOne({
                 where: { email } 
             });
@@ -20,16 +23,20 @@ class Controller {
                 return res.send('User already exists');
             }
 
-
             const hashedPassword = await bcrypt.hash(password, 10);
-            const user = await User.create({
+            await User.create({
                 username,
                 email,
                 password: hashedPassword,
                 role
             })
             
-            res.redirect('/login')
+            req.login(User, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                return res.redirect('/home');  // Redirect to the homepage after login
+            });
         } catch (error) {
             console.error(error)
             if(error.name === 'SequelizeValidationError'){
@@ -46,26 +53,21 @@ class Controller {
             console.error(error)
             }
         }
-    static async postLogin(req, res){
-        const { username, email, password, role } = req.body
-        try {
-            
-            const user = await User.findOne({
-                where: {
-                    email,
-                    role
+    static async postLogin(req, res, next){
+        passport.authenticate('local', (err, user, info) => {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return res.send(info.message); // Send back the error message from Passport
+            }
+            req.login(user, (err) => {  // Log in the user and create a session
+                if (err) {
+                    return next(err);
                 }
-            })
-            if(!user){
-                res.send('User not found')
-            }
-            
-            const isMatch = await bcrypt.compare(password, user.password);
-            if(!isMatch){
-                res.send('Wrong password')
-            }
-            
-            res.redirect('home')
+                res.redirect('home');  // Redirect to home after successful login
+            });
+        })(req, res, next);  // Pass req, res, next to Passport's 
         } catch (error) {
             console.error(error)
             if(error.name === 'SequelizeValidationError'){
@@ -74,7 +76,6 @@ class Controller {
                 })
             }
         }
-    }
     static async getHome(req, res) {
         // This route will be protected, so check if user is authenticated first
         if (!req.isAuthenticated()) {
