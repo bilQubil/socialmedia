@@ -35,7 +35,7 @@ Migrations
 )
 4. buat model dan migration: 
 
-npx sequelize-cli model:generate --name User --attributes email:string,password:string,role:string
+npx sequelize-cli model:generate --name User --attributes username:string,email:string,password:string,role:string
 
 npx sequelize-cli model:generate --name Post --attributes title:string,context:text,imgURL:string,role:string
 
