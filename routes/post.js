@@ -2,9 +2,10 @@ const express = require("express");
 const Controller = require("../Controller/controller");
 const { ensureAuthenticated, ensureRole } = require('../middleware/auth');
 
-const posting = express.Router();
+const post = express.Router();
 
-// posting.get("/", ensureAuthenticated, Controller.getPost);
-// posting.post("/", ensureAuthenticated, Controller.newPost);
+// post.get("/posts", Controller.getPost);
+post.post("/detail", Controller.newPost);
 
-module.exports = posting
+
+module.exports = post;

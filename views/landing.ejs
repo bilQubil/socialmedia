@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+      }
+
+      .sidebar {
+        width: 20%;
+        background-color: #1d1d1d;
+        height: 100vh;
+        padding: 20px;
+        position: sticky;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar li {
+        margin: 15px 0;
+      }
+
+      .sidebar li a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.2em;
+      }
+
+      .main-content {
+        width: 60%;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .post-bar {
+        background-color: #1d1d1d;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .post-bar textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        resize: none;
+      }
+
+      .post-bar input,
+      .post-bar textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        resize: none;
+      }
+
+      .post-bar textarea {
+        height: 80px;
+      }
+
+      /* Button Styles */
+      .post-bar button {
+        background-color: #444;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .post-bar button:hover {
+        background-color: #666;
+      }
+
+      .post-bar button {
+        background-color: #444;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .post-bar button:hover {
+        background-color: #666;
+      }
+
+      .posts {
+        margin-top: 20px;
+      }
+
+      .post {
+        background-color: #1d1d1d;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .post-content {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 20px;
+      }
+
+      .text-content {
+        flex: 1;
+      }
+
+      .text-content h3 {
+        margin: 0 0 10px 0;
+      }
+
+      .text-content p {
+        margin: 0;
+        color: #ccc;
+      }
+
+      .image-content {
+        flex-shrink: 0;
+        width: 150px;
+      }
+
+      .image-content img {
+        width: 100%;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .right-sidebar {
+        width: 20%;
+        background-color: #1d1d1d;
+        height: 100vh;
+        padding: 20px;
+        position: sticky;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul>
+        <li><a href="/landing">Home</a></li>
+        <li><a href="/explore">Explore</a></li>
+        <li><a href="/notifications">Notifications</a></li>
+        <li><a href="/messages">Messages</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Post Bar -->
+      <div class="post-bar">
+        <form action="/posts" method="POST">
+          <input type="text" name="title" placeholder="Post Title" />
+          <textarea
+            name="content"
+            placeholder="What is happening?!"
+            required
+          ></textarea>
+          <input type="text" name="imgUrl" placeholder="Image URL (optional)" />
+          <button type="submit">Post</button>
+        </form>
+      </div>
+
+      <!-- Posts -->
+      <div class="posts">
+        <h2>Posts</h2>
+        <% if (posts && posts.length > 0) { %> <% posts.forEach((post) => { %>
+        <div class="post">
+          <div class="post-content">
+            <div class="text-content">
+              <h3><%= post.title %></h3>
+              <p><%= post.content %></p>
+              <p>By: <%= post.User.username %> | Tag: <%= post.Tag.name %></p>
+            </div>
+            <% if (post.imgUrl) { %>
+            <div class="image-content">
+              <img src="<%= post.imgUrl %>" alt="<%= post.title %>" />
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <% }); %> <% } else { %>
+        <p>No posts available.</p>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="right-sidebar">
+      <h2>What's happening</h2>
+      <ul>
+        <li>#TrendingTopic1</li>
+        <li>#TrendingTopic2</li>
+        <li>#TrendingTopic3</li>
+      </ul>
+    </div>
+  </body>
+</html>

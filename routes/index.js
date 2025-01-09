@@ -1,6 +1,7 @@
-const express = require('express')
-const router = express.Router()
-
+// const express = require("express");
+// const postRoutes = require("./post.js");
+// const userRoutes = require("./users.js");
+// const tagRoutes = require("./tags.js");
 const posting = require('./post')
 const tag = require('./tags')
 const login = require('./login')
@@ -16,11 +17,27 @@ router.use('/logout', Controller.getLogout)
 router.use('/post', posting)
 router.use('/tag', tag)
 
-router.get('/',ensureAuthenticated, (req, res) => {
-  res.render('home')
-})
-router.get('/home', (req, res) => {
-  res.redirect('/')
-})
 
-module.exports = router
+const express = require("express");
+const postRoutes = require("./post.js");
+const userRoutes = require("./users.js");
+const tagRoutes = require("./tags.js");
+const Controller = require("../Controller/controller");
+
+const router = express.Router();
+
+router.use("/posts", postRoutes);
+router.use("/users", userRoutes);
+router.use("/tags", tagRoutes);
+
+router.get("/profile", Controller.profilePage);
+
+router.get("/landing", Controller.landingPage);
+router.post("/posts", Controller.createPost);
+
+router.get("/", (req, res) => {
+  res.redirect("/landing");
+});
+
+
+module.exports = router;
