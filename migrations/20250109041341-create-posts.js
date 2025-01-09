@@ -11,7 +11,7 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       content: {
         type: Sequelize.STRING,
@@ -19,6 +19,7 @@ module.exports = {
       },
       imgUrl: {
         type: Sequelize.STRING,
+        allowNull: true,
         validate: {
           isUrl: true,
         },

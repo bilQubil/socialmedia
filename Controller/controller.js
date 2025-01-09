@@ -1,3 +1,4 @@
+const { title } = require("process");
 const { Users, Posts, Tags } = require("../models");
 const bcrypt = require("bcryptjs");
 
@@ -12,45 +13,61 @@ class Controller {
       res.status(500).send(error.message);
     }
   }
-
-  static async registerPage(req, res) {
-    res.render("register");
-  }
-
-  static async registerUser(req, res) {
+  static async createPost(req, res) {
     try {
-      const { Username, email, password, role } = req.body;
-      await Users.create({ Username, email, password, role });
-      res.redirect("/login");
-    } catch (error) {
-      res.status(400).send(error.errors.map((err) => err.message));
-    }
-  }
-
-  static async loginPage(req, res) {
-    res.render("login");
-  }
-
-  static async loginUser(req, res) {
-    try {
-      const { email, password } = req.body;
-      const Users = await Users.findOne({ where: { email } });
-      if (!Users || !(await bcrypt.compare(password, Users.password))) {
-        return res.status(401).send("Invalid email or password");
+      const { title, content, imgUrl } = req.body;
+      if (!content) {
+        throw new Error("Content is required.");
       }
-      req.session.Users = { id: Users.id, email: Users.email };
-      res.redirect("/");
+
+      const [defaultTag, created] = await Tags.findOrCreate({
+        where: { name: "General" }, // Adjust "General" to your desired default tag
+        defaults: { name: "General" },
+      });
+
+      //DEBUG GEDEBUG
+      console.log("Creating post with data:");
+      console.log({
+        title: title || "",
+        content,
+        imgUrl: imgUrl || null,
+        userId: req.user.id,
+        tagId: defaultTag.id,
+      });
+
+      await Posts.create({
+        title: title || "",
+        content,
+        imgUrl: imgUrl || null,
+        userId: req.user.id,
+        tagId: defaultTag.id,
+      });
+
+      res.redirect("/landing");
     } catch (error) {
-      res.status(500).send(error.message);
+      //   console.log(Posts);
+      console.error("Error creating post:", error.message);
+      res.status(500).send("An error occurred while creating the post.");
     }
   }
 
-  static async getPost(req, res) {
+  static async profilePage(req, res) {
     try {
-      const posts = await Posts.findAll();
-      res.render("posts", { posts });
+      console.log("Accessing /profile route");
+      console.log("User data in req.user:", req.user);
+
+      const user = req.user;
+      if (!user) {
+        return res.redirect("/login");
+      }
+      const posts = await Posts.findAll({
+        where: { userId: user.id },
+        order: [["createdAt", "DESC"]],
+      });
+      res.render("profile", { user, posts });
     } catch (error) {
-      res.status(500).send(error.message);
+      console.error("Error in profilePage:", error.message);
+      res.status(500).send("An error occurred while loading the profile page.");
     }
   }
 
@@ -59,25 +76,6 @@ class Controller {
       const { title, content, UserId, TagsId } = req.body;
       await Posts.create({ title, content, UserId, TagsId });
       res.redirect("/posts");
-    } catch (error) {
-      res.status(400).send(error.errors.map((err) => err.message));
-    }
-  }
-
-  static async getTags(req, res) {
-    try {
-      const Tags = await Tags.findAll();
-      res.render("Tags", { Tags });
-    } catch (error) {
-      res.status(500).send(error.message);
-    }
-  }
-
-  static async postTags(req, res) {
-    try {
-      const { name } = req.body;
-      await Tags.create({ name });
-      res.redirect("/Tags");
     } catch (error) {
       res.status(400).send(error.errors.map((err) => err.message));
     }

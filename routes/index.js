@@ -27,8 +27,10 @@ router.use("/posts", postRoutes);
 router.use("/users", userRoutes);
 router.use("/tags", tagRoutes);
 
-// Define the /landing route
-router.get("/landing", Controller.landingPage); // Add this line
+router.get("/profile", Controller.profilePage);
+
+router.get("/landing", Controller.landingPage);
+router.post("/posts", Controller.createPost);
 
 router.get("/", (req, res) => {
   res.redirect("/landing");

@@ -1,6 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
-// const { post } = require("../routes");
+const { Model, DataTypes } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Posts extends Model {
     /**
@@ -17,8 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: { notEmpty: true },
+        allowNull: true,
       },
       content: {
         type: DataTypes.TEXT,
@@ -28,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       imgUrl: {
         type: DataTypes.STRING,
         validate: { isUrl: true },
+        allowNull: true,
       },
       userId: {
         type: DataTypes.INTEGER,
