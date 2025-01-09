@@ -1,14 +1,16 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const postRoutes = require("./post");
+const userRoutes = require("./user");
+const tagRoutes = require("./tag");
 
-const posting = require('./post')
-const tag = require('./tags')
+const router = express.Router();
 
-router.use('/post', posting)
-router.use('/tag', tag)
+router.use("/posts", postRoutes);
+router.use("/users", userRoutes);
+router.use("/tags", tagRoutes);
 
-router.get('/', (req, res) => {
-  res.render('home')
-})
+router.get("/", (req, res) => {
+  res.redirect("/posts");
+});
 
-module.exports = router
+module.exports = router;
