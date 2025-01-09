@@ -7,16 +7,16 @@ const tag = require('./tags')
 const login = require('./login')
 const register = require('./register')
 
+const { ensureAuthenticated } = require('../middleware/auth');
+const Controller = require('../Controller/controller');
+
 router.use('/register', register)
 router.use('/login', login)
+router.use('/logout', Controller.getLogout)
+
 router.use('/post', posting)
 router.use('/tag', tag)
 
-// router.get("/", (req, res) => {
-//   res.redirect("/landing");
-// });
-
-// module.exports = router;
 
 const express = require("express");
 const postRoutes = require("./post.js");
@@ -38,5 +38,6 @@ router.post("/posts", Controller.createPost);
 router.get("/", (req, res) => {
   res.redirect("/landing");
 });
+
 
 module.exports = router;

@@ -1,5 +1,7 @@
+
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class Tags extends Model {
     /**
@@ -8,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+    }
       Tags.hasMany(models.Posts, { foreignkey: "tagId", as: "Posts" });
     }
   }
