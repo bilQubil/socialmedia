@@ -6,10 +6,13 @@ const tag = require('./tags')
 const login = require('./login')
 const register = require('./register')
 
-const { ensureAuthenticated, ensureRole } = require('../middleware/auth');
+const { ensureAuthenticated } = require('../middleware/auth');
+const Controller = require('../Controller/controller');
 
 router.use('/register', register)
 router.use('/login', login)
+router.use('/logout', Controller.getLogout)
+
 router.use('/post', posting)
 router.use('/tag', tag)
 

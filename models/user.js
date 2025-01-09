@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -9,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    static validPassword(password) {
+      return bcrypt.compare(password, this.password);
+    }
     static associate(models) {
       // define association here
     }
@@ -17,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
   },
     email: {
       type: DataTypes.STRING,
@@ -31,12 +36,20 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
   },
     role: {
-      type: DataTypes.ENUM('buyer', 'seller'), // Restrict roles to 'buyer' or 'seller'
+      type: DataTypes.ENUM('buyer', 'seller'), 
       allowNull: false,
   },
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      beforeCreate: async (user, options) => {
+        if (user.password) {
+          user.password = await bcrypt.hash(user.password, 10); 
+        }
+      }
+    }
   });
+
   return User;
 };
