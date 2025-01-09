@@ -4,18 +4,152 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Landing Page</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .sidebar {
+        width: 20%;
+        background-color: #1d1d1d;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar li {
+        margin-bottom: 20px;
+        font-size: 1.2em;
+      }
+
+      .sidebar li a {
+        text-decoration: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sidebar li a:hover {
+        color: #00acee;
+      }
+
+      .feed {
+        width: 60%;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      .feed h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      .feed .post {
+        background-color: #1d1d1d;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .feed .post img {
+        max-width: 150px;
+        max-height: 150px;
+        border-radius: 10px;
+        margin-left: 20px;
+      }
+
+      .feed .post .content {
+        flex: 1;
+      }
+
+      .feed .post h2 {
+        margin: 0;
+        font-size: 1.5em;
+      }
+
+      .feed .post p {
+        margin: 10px 0;
+      }
+
+      .sidebar .logo {
+        font-size: 1.5em;
+        margin-bottom: 30px;
+        font-weight: bold;
+        color: #00acee;
+      }
+
+      .trends {
+        width: 20%;
+        background-color: #1d1d1d;
+        padding: 20px;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .trends h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+
+      .trends ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .trends li {
+        margin-bottom: 10px;
+        font-size: 1em;
+      }
+    </style>
   </head>
   <body>
-    <h1>Posts</h1>
-    <ul>
+    <div class="sidebar">
+      <div class="logo">My App</div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/explore">Explore</a></li>
+        <li><a href="/notifications">Notifications</a></li>
+        <li><a href="/messages">Messages</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+    </div>
+
+    <div class="feed">
+      <h1>Posts</h1>
       <% posts.forEach(post => { %>
-      <li>
-        <h2><%= post.title %></h2>
-        <p><%= post.content %></p>
+      <div class="post">
+        <div class="content">
+          <h2><%= post.title %></h2>
+          <p><%= post.content %></p>
+          <p>By: <%= post.User.username %> | Tag: <%= post.Tag.name %></p>
+        </div>
         <img src="<%= post.imgUrl %>" alt="<%= post.title %>" />
-        <p>By: <%= post.User.username %> | Tag: <%= post.Tag.name %></p>
-      </li>
+      </div>
       <% }) %>
-    </ul>
+    </div>
+
+    <div class="trends">
+      <h2>What's happening</h2>
+      <ul>
+        <li>#TrendingTopic1</li>
+        <li>#TrendingTopic2</li>
+        <li>#TrendingTopic3</li>
+      </ul>
+    </div>
   </body>
 </html>

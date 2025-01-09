@@ -6,7 +6,7 @@ module.exports = {
       {
         title: "The Future of Technology",
         content: "Technology is evolving rapidly...",
-        imgUrl: "https://example.com/image1.jpg",
+        imgUrl: "https://placecats.com/bella/300/200",
         tagId: 1, // Technology' tag
         userId: 1, // 'johndoe'
         createdAt: new Date(),
@@ -15,7 +15,7 @@ module.exports = {
       {
         title: "Healthy Living Tips",
         content: "A healthy lifestyle begins with a balanced diet...",
-        imgUrl: "https://example.com/image2.jpg",
+        imgUrl: "https://placecats.com/millie/300/150",
         tagId: 2, // health-tag
         userId: 2, // janedoe
         createdAt: new Date(),
@@ -24,7 +24,7 @@ module.exports = {
       {
         title: "Work-Life Balance",
         content: "Achieving work-life balance is essential...",
-        imgUrl: "https://example.com/image3.jpg",
+        imgUrl: "https://placecats.com/300/200",
         tagId: 3, // 'Lifestyle' tag
         userId: 1,
         createdAt: new Date(),

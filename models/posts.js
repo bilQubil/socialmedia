@@ -1,6 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
-const { post } = require("../routes");
+// const { post } = require("../routes");
 module.exports = (sequelize, DataTypes) => {
   class Posts extends Model {
     /**
@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Posts.belongsTo(models.User, { foreignKey: "userId" }); //ini belongsto user
-      Posts.belongsTo(model.Tag, { foreignKey: "tagId" }); //ini belongs to tags
+      Posts.belongsTo(models.Users, { foreignKey: "userId" }); //ini belongsto user
+      Posts.belongsTo(models.Tags, { foreignKey: "tagId", as: "Tag" }); //ini belongs to tags
     }
   }
   Posts.init(
@@ -18,30 +18,25 @@ module.exports = (sequelize, DataTypes) => {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: true, //biar title gak empty
-        },
+        validate: { notEmpty: true },
       },
       content: {
         type: DataTypes.TEXT,
         allowNull: false,
-        validate: {
-          notEmpty: true, //content gak empty
-        },
+        validate: { notEmpty: true },
       },
       imgUrl: {
         type: DataTypes.STRING,
-        validate: {
-          isUrl: true, // imgUrl juga ga boleh empty
-        },
+        validate: { isUrl: true },
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false, // postnya harus belongs to user
+        allowNull: false,
       },
       tagId: {
         type: DataTypes.INTEGER,
-        allowNull: false, // Posts harus belongs to tag
+        allowNull: false,
+        field: "tagId",
       },
     },
     {

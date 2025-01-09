@@ -1,11 +1,11 @@
-const { User, Post, Tag } = require("./models");
+const { Users, Posts, Tags } = require("../models");
 const bcrypt = require("bcryptjs");
 
 class Controller {
   static async landingPage(req, res) {
     try {
-      const posts = await Post.findAll({
-        include: [Tag, User],
+      const posts = await Posts.findAll({
+        include: [{ model: Tags, as: "Tag" }, { model: Users }],
       });
       res.render("landing", { posts });
     } catch (error) {
@@ -19,8 +19,8 @@ class Controller {
 
   static async registerUser(req, res) {
     try {
-      const { username, email, password, role } = req.body;
-      await User.create({ username, email, password, role });
+      const { Username, email, password, role } = req.body;
+      await Users.create({ Username, email, password, role });
       res.redirect("/login");
     } catch (error) {
       res.status(400).send(error.errors.map((err) => err.message));
@@ -34,14 +34,52 @@ class Controller {
   static async loginUser(req, res) {
     try {
       const { email, password } = req.body;
-      const user = await User.findOne({ where: { email } });
-      if (!user || !(await bcrypt.compare(password, user.password))) {
+      const Users = await Users.findOne({ where: { email } });
+      if (!Users || !(await bcrypt.compare(password, Users.password))) {
         return res.status(401).send("Invalid email or password");
       }
-      req.session.user = { id: user.id, email: user.email };
+      req.session.Users = { id: Users.id, email: Users.email };
       res.redirect("/");
     } catch (error) {
       res.status(500).send(error.message);
+    }
+  }
+
+  static async getPost(req, res) {
+    try {
+      const posts = await Posts.findAll();
+      res.render("posts", { posts });
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
+
+  static async newPost(req, res) {
+    try {
+      const { title, content, UserId, TagsId } = req.body;
+      await Posts.create({ title, content, UserId, TagsId });
+      res.redirect("/posts");
+    } catch (error) {
+      res.status(400).send(error.errors.map((err) => err.message));
+    }
+  }
+
+  static async getTags(req, res) {
+    try {
+      const Tags = await Tags.findAll();
+      res.render("Tags", { Tags });
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
+
+  static async postTags(req, res) {
+    try {
+      const { name } = req.body;
+      await Tags.create({ name });
+      res.redirect("/Tags");
+    } catch (error) {
+      res.status(400).send(error.errors.map((err) => err.message));
     }
   }
 }

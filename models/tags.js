@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Tags.hasMany(models.Post, { foreignkey: "tagId" });
+      Tags.hasMany(models.Posts, { foreignkey: "tagId", as: "Posts" });
     }
   }
   Tags.init(
@@ -16,8 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
-          notEmpty: true, //untuk makesure nama tidak kosong
+          notEmpty: true,
         },
       },
     },

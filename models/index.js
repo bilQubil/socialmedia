@@ -31,14 +31,29 @@ fs.readdirSync(__dirname)
       sequelize,
       Sequelize.DataTypes
     );
+    // console.log(`Loaded model ->>> ${model.name}`); // NGETES
+
     db[model.name] = model;
   });
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
+    // console.log(`Associating model->>> ${modelName}`); // NGETES
     db[modelName].associate(db);
   }
 });
+
+//debug
+// console.log("Final loaded models -->>>", Object.keys(db)); // List all loaded models
+
+// sequelize
+//   .sync({ alter: true }) // This ensures the database schema matches your models
+//   .then(() => {
+//     console.log("Database synced successfully.");
+//   })
+//   .catch((error) => {
+//     console.error("Error syncing database:", error);
+//   });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
