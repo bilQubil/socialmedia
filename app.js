@@ -1,22 +1,22 @@
+// const express = require("express");
+// const session = require("express-session");
+// const passport = require("passport");
+// const routes = require("./routes/index.js");
+// // const app = express()
+// const port = 3000;
 
-const express = require('express')
-const session = require('express-session');
-const passport = require('passport');
-const routes = require('./routes/index.js');
-const app = express()
-const port = 3000
-
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true }))
-app.use(session({
-  secret: 'your-secret-key',  
-  resave: false,              
-  saveUninitialized: true,    
-  cookie: { secure: false }   
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
+// app.set("view engine", "ejs");
+// app.use(express.urlencoded({ extended: true }));
+// app.use(
+//   session({
+//     secret: "your-secret-key",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false },
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // app.use((req, res, next) => {
 //   req.user = {
@@ -39,6 +39,7 @@ app.use(passport.session());
 const express = require("express");
 const routes = require("./routes/index.js"); // Main routes including /profile
 const app = express();
+// const db = require("./models");
 
 // Set up the view engine
 app.set("view engine", "ejs");
@@ -60,6 +61,18 @@ app.use((req, res, next) => {
 
 // Use the main routes
 app.use("/", routes);
+
+// db.sequelize
+//   .sync({ alter: true }) // Automatically updates database schema to match models
+//   .then(() => {
+//     console.log("Database synchronized successfully.");
+//     app.listen(port, () => {
+//       console.log(`Server running on http://localhost:${port}`);
+//     });
+//   })
+//   .catch((err) => {
+//     console.error("Failed to sync database:", err);
+//   });
 
 // Start the server
 const PORT = 3000;

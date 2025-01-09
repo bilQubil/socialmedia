@@ -1,18 +1,13 @@
 "use strict";
 const { Model, DataTypes } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Posts extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Post extends Model {
     static associate(models) {
-      Posts.belongsTo(models.Users, { foreignKey: "userId" }); //ini belongsto user
-      Posts.belongsTo(models.Tags, { foreignKey: "tagId", as: "Tag" }); //ini belongs to tags
+      Post.belongsTo(models.User, { foreignKey: "userId" }); //ini belongsto user
+      Post.belongsTo(models.Tag, { foreignKey: "tagId", as: "Tag" }); //ini belongs to tags
     }
   }
-  Posts.init(
+  Post.init(
     {
       title: {
         type: DataTypes.STRING,
@@ -36,13 +31,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: "tagId",
+        references: {
+          model: "Tags",
+          key: "id",
+        },
       },
     },
     {
       sequelize,
-      modelName: "Posts",
+      modelName: "Post",
     }
   );
+  // console.log("Request Body:", req.body);
 
-  return Posts;
+  return Post;
 };
