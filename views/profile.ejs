@@ -135,7 +135,7 @@
         <li><a href="/explore">Explore</a></li>
         <li><a href="/notifications">Notifications</a></li>
         <li><a href="/messages">Messages</a></li>
-        <li><a href="/profile">Profile</a></li>
+        <li><a href="/update-password">Reset Password</a></li>
       </ul>
     </div>
 
@@ -161,12 +161,13 @@
       </div>
 
       <!-- Posts -->
-      <% if (posts && posts.length > 0) { %> <% posts.forEach((post) => { %>
-      <div class="post">
-        <h2><%= post.title %></h2>
-        <p><%= post.content %></p>
-        <% if (post.imgUrl) { %>
-        <img src="<%= post.imgUrl %>" alt="<%= post.title %>" />
+      <% if (posts && posts.length > 0) { %> 
+        <% posts.forEach((post) => { %>
+        <div class="post">
+          <h2><%= post.title %></h2>
+          <p><%= post.content %></p>
+          <% if (post.imgUrl) { %>
+          <img src="<%= post.imgURL %>" alt="<%= post.title %>" />
         <% } %>
       </div>
       <% }); %> <% } else { %>

@@ -3,30 +3,24 @@
       "id": 1,
       "title": "The Future of Technology",
       "content": "Technology is evolving rapidly, and it's important to stay updated...",
-      "imgUrl": "https://placecats.com/bella/300/200",
-      "createdAt": "2025-01-02T10:00:00Z",
-      "updatedAt": "2025-01-02T10:00:00Z",
-      "tagId": 1, 
-      "userId": 2  
+      "imgURL": "https://placecats.com/bella/300/200",
+      "TagId": 1, 
+      "UserId": 2  
     },
     {
       "id": 2,
       "title": "Healthy Living Tips",
       "content": "A healthy lifestyle begins with a balanced diet and exercise...",
-      "imgUrl": "https://placecats.com/millie/300/150",
-      "createdAt": "2025-01-03T10:00:00Z",
-      "updatedAt": "2025-01-03T10:00:00Z",
-      "tagId": 2, 
-      "userId": 1  
+      "imgURL": "https://placecats.com/millie/300/150",
+      "TagId": 2, 
+      "UserId": 1  
     },
     {
       "id": 3,
       "title": "Work-Life Balance",
       "content": "Achieving a good work-life balance is essential for mental health...",
-      "imgUrl": "https://placecats.com/300/200",
-      "createdAt": "2025-01-04T10:00:00Z",
-      "updatedAt": "2025-01-04T10:00:00Z",
-      "tagId": 3, 
-      "userId": 1  
+      "imgURL": "https://placecats.com/300/200",
+      "TagId": 3, 
+      "UserId": 1  
     }
   ]

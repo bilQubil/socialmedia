@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Landing Page</title>
     <style>
+      
       body {
         font-family: Arial, sans-serif;
         background-color: #121212;
@@ -51,6 +52,8 @@
 
       .post-bar {
         background-color: #1d1d1d;
+        display: flex;
+        justify-content: center; 
         padding: 20px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -165,68 +168,115 @@
         position: sticky;
         top: 0;
       }
+
+      .right-sidebar ul li a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .right-sidebar ul li a.active {
+        color: rgb(0, 225, 255);
+      }
     </style>
   </head>
   <body>
     <!-- Sidebar -->
     <div class="sidebar">
+      <div>
+        <h1>Welcome, <%= user.username %></h1>
+      </div>
       <ul>
         <li><a href="/landing">Home</a></li>
-        <li><a href="/explore">Explore</a></li>
-        <li><a href="/notifications">Notifications</a></li>
         <li><a href="/messages">Messages</a></li>
         <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
       </ul>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-      <!-- Post Bar -->
-      <div class="post-bar">
-        <form action="/posts" method="POST">
-          <input type="text" name="title" placeholder="Post Title" />
-          <textarea
-            name="content"
-            placeholder="What is happening?!"
-            required
-          ></textarea>
-          <input type="text" name="imgUrl" placeholder="Image URL (optional)" />
-          <button type="submit">Post</button>
+      <!-- search bar -->
+      <div class="mb-4">
+        <form action="/landing" method="GET">
+          <div class="input-group">
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              placeholder="Se arch posts..."
+              value="<%= search || '' %>"
+            />
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
         </form>
       </div>
+      <!-- Post Bar -->
+      <div class="post-bar">
+        <form action="/posts/newpost" method="POST">
+          <input type="text" name="title" placeholder="Post Title" required />
+          <textarea name="content" placeholder="What is happening?!" required></textarea>
+          <input type="text" name="imgURL" placeholder="Image URL (optional)" />
+          <div class="mb-3">
+            <select
+              class="form-select"
+              name="tagname"
+              aria-label="Select Tag"
+              required
+            >
+              <option value="technology">Technology</option>
+              <option value="health">Health</option>
+              <option value="lifestyle">Lifestyle</option>
+            </select>
+          </div>
+          <button type="submit">Post</button>
+        </form>
+       </div>
+      
 
       <!-- Posts -->
       <div class="posts">
         <h2>Posts</h2>
-        <% if (posts && posts.length > 0) { %> <% posts.forEach((post) => { %>
-        <div class="post">
-          <div class="post-content">
-            <div class="text-content">
-              <h3><%= post.title %></h3>
-              <p><%= post.content %></p>
-              <p>By: <%= post.User.username %> | Tag: <%= post.Tag.name %></p>
+        <% if (posts && posts.length > 0) { %>
+          <% posts.forEach((post) => { %>
+            <div class="post">
+              <div class="post-content">
+                <div class="text-content">
+                  <h3><%= post.title %></h3>
+                  <p><%= post.content %></p>
+                  <p>
+                    By: <%= post.User ? post.User.username : 'Unknown User' %> | 
+                    Tag: <%= post.Tag ? post.Tag.name : 'All' %>
+                  </p>
+                </div>
+                <% if (post.imgURL) { %>
+                  <div class="image-content">
+                    <img src="<%= post.imgURL %>" alt="<%= post.title %>" />
+                  </div>
+                <% } %>
+                <% if (user.role === "admin") { %>
+                  <form action="/posts/<%= post.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                <% } %>
+              </div>
             </div>
-            <% if (post.imgUrl) { %>
-            <div class="image-content">
-              <img src="<%= post.imgUrl %>" alt="<%= post.title %>" />
-            </div>
-            <% } %>
-          </div>
-        </div>
-        <% }); %> <% } else { %>
-        <p>No posts available.</p>
+          <% }); %>
+        <% } else { %>
+          <p>No posts available.</p>
         <% } %>
       </div>
-    </div>
+      </div>
+      
 
     <!-- Right Sidebar -->
     <div class="right-sidebar">
-      <h2>What's happening</h2>
-      <ul>
-        <li>#TrendingTopic1</li>
-        <li>#TrendingTopic2</li>
-        <li>#TrendingTopic3</li>
-      </ul>
+        <h2>What's happening</h2>
+        <ul>
+            <li><a href="/landing" style="color: white;">All</a></li>
+            <li><a href="/landing?tag=technology" style="color: white;">Technology</a></li>
+            <li><a href="/landing?tag=health" style="color: white;">Health</a></li>
+            <li><a href="/landing?tag=lifestyle" style="color: white;">Lifestyle</a></li>
+        </ul>
     </div>
   </body>
 </html>

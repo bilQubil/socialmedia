@@ -4,17 +4,13 @@
       "username": "johndoe",
       "email": "johndoe@example.com",
       "password": "woahwoah_password_123",
-      "role": "buyer",
-      "createdAt": "2025-01-01T10:00:00Z",
-      "updatedAt": "2025-01-01T10:00:00Z"
+      "role": "buyer"
     },
     {
       "id": 2,
       "username": "janedoe",
       "email": "janedoe@example.com",
       "password": "woowoow_password_456",
-      "role": "seller",
-      "createdAt": "2025-01-01T11:00:00Z",
-      "updatedAt": "2025-01-01T11:00:00Z"
+      "role": "seller"
     }
   ]
