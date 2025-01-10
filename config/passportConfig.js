@@ -1,12 +1,12 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { User } = require('../models');  
+const { Users } = require('../models');  
 const bcrypt = require('bcryptjs');
 
 // Local strategy for Passport.js
 passport.use(new LocalStrategy({
-    usernameField: 'email',  // Use email as username
-    passwordField: 'password',  // Standard password field
+    usernameField: 'email', 
+    passwordField: 'password', 
     passReqToCallback: true  // This will pass the request object to the callback
 }, async (req, email, password, done) => {  // req is passed here
     try {
@@ -15,7 +15,7 @@ passport.use(new LocalStrategy({
         const role = req.body.role;
 
         // Look for a user with the given username, email, and role
-        const user = await User.findOne({
+        const user = await Users.findOne({
             where: {
                 username, 
                 email,  
@@ -28,7 +28,7 @@ passport.use(new LocalStrategy({
         }
 
         // Validate user role
-        if (user.role !== 'buyer' && user.role !== 'seller') {
+        if (user.role !== 'user' && user.role !== 'admin') {
             return done(null, false, { message: 'Invalid role' }); 
         }
 
@@ -53,7 +53,7 @@ passport.serializeUser((user, done) => {
 // Deserialize user from session using user ID
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await User.findByPk(id);  
+        const user = await Users.findByPk(id);  
         done(null, user); 
     } catch (error) {
         done(error); 

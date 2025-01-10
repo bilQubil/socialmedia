@@ -4,8 +4,8 @@ const { ensureAuthenticated, ensureRole } = require('../middleware/auth');
 
 const post = express.Router();
 
-// post.get("/posts", Controller.getPost);
-post.post("/detail", Controller.newPost);
+post.get("/newpost",ensureAuthenticated, Controller.getPost);
+post.post("/newpost",ensureAuthenticated, Controller.newPost);
 
 
 module.exports = post;

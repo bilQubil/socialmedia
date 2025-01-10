@@ -15,7 +15,6 @@ Workflow:
 1. Bikin ERD
 2. Migration n Seeding table (a)
 3. Setup Express (b)
-
 4. 
 
 a.Migration n Seeding table
@@ -37,15 +36,15 @@ Migrations
 
 npx sequelize-cli model:generate --name User --attributes username:string,email:string,password:string,role:string
 
-npx sequelize-cli model:generate --name Post --attributes title:string,context:text,imgURL:string,role:string
+npx sequelize-cli model:generate --name Post --attributes title:string,content:text,imgURL:string,role:string
 
 npx sequelize-cli model:generate --name Tags --attributes name:string
 
 5. buat tambahan collumn: 
 
-npx sequelize-cli migration:generate --name add-FK-userID
+npx sequelize-cli migration:generate --name add-FK-UserID
 
-npx sequelize-cli migration:generate --name add-FK-tagID
+npx sequelize-cli migration:generate --name add-FK-TagID
 
 6. setting relation dalam file migration yang baru
 7. setting relation dalam file models
@@ -57,6 +56,29 @@ seeding
 
 1. npx sequelize-cli seed:generate --name demo-tags (khusus yang ada .json nya)
 2. setting seeding dalam folder seeders (JSON.parse(fs.readfilesync()))
+
+"use strict";
+const fs = require("fs");
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    const data = JSON.parse(fs.readFileSync("./data/posts.json", "utf-8"));
+        const users = data.map((el) => {
+          delete el.id;
+          return {
+              ...el,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+          };
+      });
+    return queryInterface.bulkInsert("Posts", users);
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete("Posts", null, {});
+  },
+};
+
+
 2. npx sequelize-cli db:seed:all
 3. npx sequelize-cli db:seed:undo:all (jika perlu)
 

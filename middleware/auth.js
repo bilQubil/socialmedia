@@ -5,13 +5,13 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-function ensureRole(role) {
+function ensureAdmin(role) {
     return (req, res, next) => {
-        if (req.isAuthenticated() && req.user.role === role) {
+        if (req.isAuthenticated() && req.user.role === "admin") {
             return next();
         }
         res.status(403).send('Forbidden: You do not have access to this resource');
     };
 }
 
-module.exports = { ensureAuthenticated, ensureRole };
+module.exports = { ensureAuthenticated, ensureAdmin };
